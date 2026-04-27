@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tra Cứu Kết Quả Khảo Sát – Sở GD&ĐT Phú Thọ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="data/hunghoa.js"></script>
+<script src="data/tamnong.js"></script>
+<style>
+/* =========================================================
+   ROOT TOKENS
+========================================================= */
+:root{
+  --navy:#0d2350;
+  --navy2:#162d5e;
+  --blue:#1a56db;
+  --blue-lt:#3b7ff5;
+  --teal:#0891b2;
+  --teal-lt:#06b6d4;
+  --gold:#e8a020;
+  --gold-lt:#fbbf24;
+  --green:#059669;
+  --red:#dc2626;
+  --orange:#d97706;
+  --bg:#f0f4fa;
+  --card:#ffffff;
+  --border:#dde4ef;
+  --text:#0f172a;
+  --muted:#64748b;
+  --faint:#94a3b8;
+  --radius:14px;
+  --shadow:0 2px 16px rgba(13,35,80,.10);
+  --shadow-lg:0 8px 40px rgba(13,35,80,.15);
+  font-family:'Be Vietnam Pro',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);min-height:100vh}
+
+/* =========================================================
+   HEADER
+========================================================= */
+.site-header{
+  background:linear-gradient(135deg,#091c45 0%,#0d2350 45%,#143070 100%);
+  position:relative;overflow:hidden;
+}
+.site-header::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-inner{max-width:1000px;margin:0 auto;padding:28px 24px 24px;position:relative}
+.header-top{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.ministry-logo{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,#fff,#e8f0ff);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;flex-shrink:0;
+  box-shadow:0 4px 20px rgba(0,0,0,.4),inset 0 1px 1px rgba(255,255,255,.5);
+}
+.header-titles small{
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.55);display:block;margin-bottom:4px;
+}
+.header-titles h1{
+  font-size:22px;font-weight:800;color:#fff;line-height:1.25;
+  text-shadow:0 2px 12px rgba(0,0,0,.3);
+}
+.header-meta{
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  padding-top:14px;border-top:1px solid rgba(255,255,255,.12);
+}
+.hm-chip{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+  border-radius:30px;padding:4px 12px;font-size:12px;color:rgba(255,255,255,.85);
+  display:inline-flex;align-items:center;gap:5px;
+}
+.hm-chip.active{background:var(--gold);border-color:var(--gold-lt);color:#fff;font-weight:600}
+
+/* =========================================================
+   SCHOOL SWITCHER
+========================================================= */
+.school-bar{background:var(--navy2);border-bottom:2px solid rgba(255,255,255,.08)}
+.school-tabs{max-width:1000px;margin:0 auto;padding:0 24px;display:flex;gap:0}
+.school-tab{
+  padding:14px 24px;font-size:14px;font-weight:600;color:rgba(255,255,255,.55);
+  cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;
+  display:flex;align-items:center;gap:8px;user-select:none;
+}
+.school-tab:hover{color:rgba(255,255,255,.85)}
+.school-tab.active{color:#fff;border-bottom-color:var(--gold)}
+.school-tab .dot{
+  width:8px;height:8px;border-radius:50%;background:var(--faint);
+  transition:background .2s;flex-shrink:0;
+}
+.school-tab.active .dot{background:var(--gold-lt)}
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+.page{max-width:1000px;margin:0 auto;padding:28px 24px 60px}
+
+/* =========================================================
+   SEARCH CARD
+========================================================= */
+.search-card{
+  background:var(--card);border-radius:var(--radius);
+  border:1px solid var(--border);box-shadow:var(--shadow);
+  padding:28px;margin-bottom:24px;
+}
+.search-card-title{
+  font-size:15px;font-weight:700;color:var(--navy);
+  margin-bottom:18px;display:flex;align-items:center;gap:8px;
+}
+.search-row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.field{flex:1;min-width:200px}
+.field label{
+  display:block;font-size:12px;font-weight:600;letter-spacing:.5px;
+  color:var(--muted);text-transform:uppercase;margin-bottom:6px;
+}
+.field input,.field select{
+  width:100%;padding:12px 14px;border:2px solid var(--border);
+  border-radius:10px;font-size:14px;color:var(--text);
+  font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s;
+  background:#fff;
+}
+.field input:focus,.field select:focus{
+  border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.1);
+}
+.field.dob{flex:0 0 180px;min-width:160px}
+.field.klass{flex:0 0 160px;min-width:140px}
+.btn-search{
+  padding:12px 28px;background:linear-gradient(135deg,var(--blue),var(--blue-lt));
+  color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;
+  box-shadow:0 4px 14px rgba(26,86,219,.35);
+}
+.btn-search:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(26,86,219,.45)}
+.btn-search:active{transform:none}
+
+/* Autocomplete */
+.ac-wrap{position:relative}
+.ac-list{
+  position:absolute;top:100%;left:0;right:0;background:#fff;
+  border:1px solid var(--border);border-top:none;border-radius:0 0 10px 10px;
+  max-height:220px;overflow-y:auto;z-index:200;
+  box-shadow:0 12px 40px rgba(0,0,0,.12);display:none;
+}
+.ac-list.open{display:block}
+.ac-item{
+  padding:10px 14px;cursor:pointer;font-size:13px;
+  border-bottom:1px solid #f0f4fa;display:flex;align-items:center;gap:10px;
+}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover{background:#f8faff}
+.ac-name{font-weight:600;flex:1}
+.ac-meta{font-size:11px;color:var(--muted)}
+.search-hint{font-size:12px;color:var(--faint);margin-top:10px}
+
+/* =========================================================
+   EMPTY / ERROR STATES
+========================================================= */
+.state-box{
+  text-align:center;padding:60px 20px;color:var(--muted);
+  background:var(--card);border-radius:var(--radius);border:1px solid var(--border);
+}
+.state-box .icon{font-size:56px;margin-bottom:14px;opacity:.5;display:block}
+.state-box h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.state-box p{font-size:13px}
+
+/* =========================================================
+   STUDENT BANNER
+========================================================= */
+.student-banner{
+  background:linear-gradient(135deg,#0d2350,#1a3a7a);
+  border-radius:var(--radius);padding:22px 26px;
+  display:flex;align-items:center;gap:18px;
+  margin-bottom:22px;box-shadow:var(--shadow-lg);
+  position:relative;overflow:hidden;
+}
+.student-banner::after{
+  content:'🎓';position:absolute;right:24px;top:50%;transform:translateY(-50%);
+  font-size:72px;opacity:.08;line-height:1;
+}
+.sb-avatar{
+  width:58px;height:58px;border-radius:50%;
+  background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;flex-shrink:0;
+}
+.sb-info h2{font-size:21px;font-weight:800;color:#fff;margin-bottom:4px}
+.sb-info .sb-sub{font-size:13px;color:rgba(255,255,255,.7)}
+.sb-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.sb-tag{
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;
+  color:rgba(255,255,255,.9);
+}
+.sb-tag.gold{background:rgba(232,160,32,.25);border-color:var(--gold);color:var(--gold-lt)}
+
+/* =========================================================
+   SECTION / CARD
+========================================================= */
+.section{margin-bottom:22px}
+.card{
+  background:var(--card);border-radius:var(--radius);
+  border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;
+}
+.card-header{
+  padding:16px 22px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.card-header h3{font-size:15px;font-weight:700;color:var(--navy)}
+.card-body{padding:20px 22px}
+
+/* =========================================================
+   EXAM TABS
+========================================================= */
+.exam-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);padding:0 22px}
+.exam-tab{
+  padding:11px 18px;font-size:13px;font-weight:600;color:var(--muted);
+  cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;
+  transition:all .15s;white-space:nowrap;
+}
+.exam-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.exam-tab.no-data{color:var(--faint);cursor:default}
+.exam-tab:not(.no-data):hover{color:var(--navy)}
+.exam-panels{padding:20px 22px}
+.exam-panel{display:none}
+.exam-panel.active{display:block}
+
+/* Subject score grid */
+.subject-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.subject-card{
+  border:2px solid var(--border);border-radius:12px;padding:14px 16px;
+  transition:border-color .2s;
+}
+.subject-card.hi{border-color:#86efac;background:#f0fdf4}
+.subject-card.mid{border-color:#93c5fd;background:#eff6ff}
+.subject-card.lo{border-color:#fca5a5;background:#fff1f2}
+.sc-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.sc-score{font-size:28px;font-weight:800;line-height:1}
+.sc-score.hi{color:var(--green)}
+.sc-score.mid{color:var(--blue)}
+.sc-score.lo{color:var(--red)}
+.sc-change{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:6px}
+.sc-change.up{background:#dcfce7;color:var(--green)}
+.sc-change.down{background:#fee2e2;color:var(--red)}
+.sc-change.same{background:#f1f5f9;color:var(--faint)}
+.sc-exam{font-size:11px;color:var(--faint);margin-top:3px}
+
+/* =========================================================
+   SCORE SUMMARY TABLE
+========================================================= */
+.stbl{width:100%;border-collapse:collapse;font-size:13px}
+.stbl thead th{
+  background:var(--navy);color:#fff;padding:10px 14px;
+  text-align:left;font-weight:600;font-size:12px;
+}
+.stbl thead th:first-child{border-radius:8px 0 0 0}
+.stbl thead th:last-child{border-radius:0 8px 0 0;text-align:right}
+.stbl tbody td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.stbl tbody tr:last-child td{border-bottom:none}
+.stbl tbody tr:hover td{background:#f8faff}
+.stbl .score-num{font-weight:800;font-size:15px}
+.stbl .score-num.hi{color:var(--green)}
+.stbl .score-num.mid{color:var(--blue)}
+.stbl .score-num.lo{color:var(--red)}
+.stbl .score-num.na{color:var(--faint);font-size:13px;font-weight:400}
+.stbl .delta{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;padding:2px 6px;border-radius:12px;margin-left:4px}
+.delta.up{background:#dcfce7;color:var(--green)}
+.delta.down{background:#fee2e2;color:var(--red)}
+.delta.same{background:#f1f5f9;color:var(--faint)}
+.stbl tfoot td{padding:10px 14px;background:#f8faff;font-weight:700;font-size:14px}
+
+/* =========================================================
+   CHART
+========================================================= */
+.chart-wrap{position:relative;height:300px}
+
+/* =========================================================
+   COMBO CARDS
+========================================================= */
+.combo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.combo-card{
+  border:2px solid var(--border);border-radius:12px;padding:16px;
+  transition:all .2s;position:relative;
+}
+.combo-card.rank-1{border-color:var(--gold);background:linear-gradient(135deg,#fffbeb,#fff8e1)}
+.combo-card.rank-2{border-color:#86efac;background:#f0fdf4}
+.combo-card.rank-3{border-color:#93c5fd;background:#eff6ff}
+.combo-rank{
+  position:absolute;top:-10px;left:14px;
+  width:22px;height:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:#fff;
+}
+.combo-card.rank-1 .combo-rank{background:var(--gold)}
+.combo-card.rank-2 .combo-rank{background:var(--green)}
+.combo-card.rank-3 .combo-rank{background:var(--blue)}
+.combo-code{font-size:24px;font-weight:900;color:var(--navy);margin-bottom:4px}
+.combo-subs{font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.4}
+.combo-score{font-size:20px;font-weight:800}
+.combo-score.hi{color:var(--green)}
+.combo-score.mid{color:var(--orange)}
+.combo-score.lo{color:var(--red)}
+.combo-cap{font-size:11px;color:var(--faint);margin-top:2px}
+.combo-best-label{font-size:10px;font-weight:700;color:var(--gold);margin-top:4px;display:block}
+
+/* =========================================================
+   UNIVERSITIES
+========================================================= */
+.uni-grid{display:flex;flex-direction:column;gap:10px}
+.uni-row{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px;border:1px solid var(--border);border-radius:12px;
+  transition:border-color .15s;
+}
+.uni-row:hover{border-color:#93c5fd;background:#f8faff}
+.uni-num{
+  width:32px;height:32px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:13px;
+}
+.num-1{background:#fef3c7;color:#b45309}
+.num-2{background:#f1f5f9;color:#475569}
+.num-3{background:#fee7e7;color:#b91c1c}
+.num-n{background:#eff6ff;color:#1d4ed8}
+.uni-body{flex:1}
+.uni-name{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.uni-dept{font-size:12px;color:var(--muted);margin-bottom:6px}
+.uni-combos{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:5px}
+.uc-tag{
+  background:#eff6ff;color:var(--blue);border:1px solid #bfdbfe;
+  font-size:10px;font-weight:700;padding:2px 7px;border-radius:12px;
+}
+.uni-req{font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;display:inline-block}
+.req-ok{background:#dcfce7;color:var(--green)}
+.req-near{background:#fef9c3;color:#92400e}
+.req-low{background:#fee2e2;color:var(--red)}
+.uni-score-badge{font-size:11px;color:var(--faint);margin-top:3px}
+
+/* =========================================================
+   ANALYSIS
+========================================================= */
+.analysis-block{
+  border-left:4px solid;border-radius:0 10px 10px 0;
+  padding:14px 18px;margin-bottom:12px;font-size:13px;line-height:1.7;
+}
+.ab-info{border-left-color:#0891b2;background:#f0f9ff}
+.ab-up{border-left-color:var(--green);background:#f0fdf4}
+.ab-down{border-left-color:var(--red);background:#fff1f2}
+.ab-warn{border-left-color:var(--gold);background:#fffbeb}
+.ab-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;color:var(--navy)}
+
+/* =========================================================
+   SCHOOL NOTICE (Tam Nông)
+========================================================= */
+.school-notice{
+  background:#fffbeb;border:2px dashed var(--gold);border-radius:var(--radius);
+  padding:28px;text-align:center;
+}
+.school-notice h3{font-size:16px;font-weight:700;color:#92400e;margin-bottom:8px}
+.school-notice p{font-size:13px;color:#78350f;line-height:1.6}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media(max-width:640px){
+  .search-row{flex-direction:column}
+  .field.dob,.field.klass{flex:1}
+  .btn-search{width:100%}
+  .combo-grid{grid-template-columns:1fr 1fr}
+  .student-banner{flex-direction:column;text-align:center}
+  .header-titles h1{font-size:17px}
+  .exam-tabs{overflow-x:auto;gap:0}
+  .exam-tab{white-space:nowrap}
+  .stbl{font-size:12px}
+  .stbl thead th,.stbl tbody td,.stbl tfoot td{padding:8px 10px}
+}
+
+/* =========================================================
+   UTILITY
+========================================================= */
+.hidden{display:none}
+.text-center{text-align:center}
+.mt-4{margin-top:16px}
+.no-data-exam{color:var(--faint);font-size:13px;text-align:center;padding:24px 0}
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-top">
+      <div class="ministry-logo">🏛️</div>
+      <div class="header-titles">
+        <small>Sở Giáo dục và Đào tạo Phú Thọ</small>
+        <h1>Tra Cứu Kết Quả Khảo Sát Chất Lượng<br>Học Sinh Lớp 12 – Năm học 2025–2026</h1>
+      </div>
+    </div>
+    <div class="header-meta">
+      <span class="hm-chip">🗂️ Khảo sát Sở đợt 1</span>
+      <span class="hm-chip">🏫 Khảo sát Trường</span>
+      <span class="hm-chip">🗂️ Khảo sát Sở đợt 2</span>
+      <span class="hm-chip active" id="hdr-count">⏳ Đang tải…</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== SCHOOL TABS ===================== -->
+<div class="school-bar">
+  <div class="school-tabs">
+    <div class="school-tab active" id="tab-hh" onclick="switchSchool('hh')">
+      <span class="dot"></span>THPT Hưng Hóa
+    </div>
+    <div class="school-tab" id="tab-tn" onclick="switchSchool('tn')">
+      <span class="dot"></span>THPT Tam Nông
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MAIN ===================== -->
+<div class="page">
+
+  <!-- SEARCH -->
+  <div class="search-card">
+    <div class="search-card-title">🔍 Tra cứu học sinh</div>
+    <div class="search-row">
+      <div class="field ac-wrap">
+        <label>Họ và tên học sinh</label>
+        <input type="text" id="inp-name" placeholder="Nhập họ tên…" autocomplete="off"
+          oninput="onNameInput()" onkeydown="onNameKey(event)">
+        <div class="ac-list" id="ac-list"></div>
+      </div>
+      <div class="field dob">
+        <label>Ngày sinh (DD/MM/YYYY)</label>
+        <input type="text" id="inp-dob" placeholder="VD: 15/06/2008"
+          oninput="formatDob(this)" maxlength="10">
+      </div>
+      <div class="field klass">
+        <label>Lớp</label>
+        <select id="inp-class">
+          <option value="">-- Tất cả --</option>
+        </select>
+      </div>
+      <button class="btn-search" onclick="doSearch()">Tra cứu</button>
+    </div>
+    <div class="search-hint">💡 Có thể tìm không dấu &nbsp;·&nbsp; Nhập ngày sinh để phân biệt học sinh trùng tên</div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="state-box">
+      <span class="icon">📚</span>
+      <h3>Chào mừng đến hệ thống tra cứu</h3>
+      <p>Chọn trường học, nhập tên học sinh (và ngày sinh nếu cần) rồi nhấn <b>Tra cứu</b>.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== SCRIPT ===================== -->
+<script>
+/* =========================================================
+   DATA & STATE
+========================================================= */
+let currentSchool = 'hh';
+let currentStudent = null;
+let chartInstance = null;
+
+const SCHOOL_DATA = {
+  hh: { label:'THPT Hưng Hóa', data: typeof HUNGHOA_DATA!=='undefined' ? HUNGHOA_DATA : [], exams:['so1','truong','so2'] },
+  tn: { label:'THPT Tam Nông',  data: typeof TAMNONG_DATA !=='undefined' ? TAMNONG_DATA  : [], exams:['so2'] },
+};
+
+const EXAM_LABELS = { so1:'Sở đợt 1', truong:'Khảo sát Trường', so2:'Sở đợt 2' };
+
+/* =========================================================
+   UNIVERSITY DATABASE (10–12 entries per combo group)
+========================================================= */
+const UNI_DB = {
+  // Khoa học tự nhiên – A00
+  A00:[
+    {name:'ĐH Bách Khoa Hà Nội',dept:'Kỹ thuật điện, Điện tử, Cơ khí',min:24,icon:'⚙️',combos:['A00','A01']},
+    {name:'ĐH Bách Khoa TP.HCM',dept:'Công nghệ, Kỹ thuật, CNTT',min:23,icon:'🏭',combos:['A00','A01']},
+    {name:'ĐH Khoa học Tự nhiên (ĐHQGHN)',dept:'Vật lí, Hóa học, Toán học',min:22,icon:'🔬',combos:['A00','B00']},
+    {name:'HV Kỹ thuật Quân sự',dept:'Kỹ thuật điện, Vũ khí',min:21,icon:'🎖️',combos:['A00']},
+    {name:'ĐH Xây dựng Hà Nội',dept:'Xây dựng, Kiến trúc',min:20,icon:'🏗️',combos:['A00','A01']},
+    {name:'ĐH Điện lực',dept:'Kỹ thuật điện, Điều độ',min:19,icon:'⚡',combos:['A00','A01']},
+    {name:'ĐH Công nghiệp Hà Nội',dept:'Cơ khí, Kỹ thuật công nghiệp',min:18,icon:'🔧',combos:['A00','A01']},
+    {name:'ĐH Giao thông Vận tải',dept:'Cầu đường, Kỹ thuật GT',min:19,icon:'🚂',combos:['A00','A01']},
+    {name:'ĐH Công nghiệp TP.HCM',dept:'Kỹ thuật, Điện – Điện tử',min:17,icon:'🔌',combos:['A00']},
+    {name:'ĐH Hùng Vương Phú Thọ',dept:'Kỹ thuật, Công nghệ địa phương',min:14,icon:'🏠',combos:['A00','A01','B00']},
+    {name:'ĐH Kinh doanh và Công nghệ HN',dept:'Kỹ thuật, Công nghệ',min:15,icon:'🏢',combos:['A00']},
+  ],
+  A01:[
+    {name:'ĐH Công nghệ (ĐHQGHN)',dept:'CNTT, Kỹ thuật máy tính, Viễn thông',min:26,icon:'💻',combos:['A01']},
+    {name:'HV Bưu chính Viễn thông',dept:'CNTT, Mạng máy tính',min:22,icon:'📡',combos:['A01']},
+    {name:'ĐH FPT',dept:'Công nghệ thông tin, AI',min:21,icon:'🤖',combos:['A01','D01']},
+    {name:'ĐH Sư phạm Hà Nội',dept:'Sư phạm Vật lí, Tin học',min:20,icon:'🎓',combos:['A01']},
+    {name:'ĐH Công nghệ Thông tin (ĐHQG TP.HCM)',dept:'CNTT, An toàn thông tin',min:22,icon:'🛡️',combos:['A01']},
+    {name:'ĐH Điện lực',dept:'Kỹ thuật điện, Hệ thống điện',min:19,icon:'⚡',combos:['A00','A01']},
+    {name:'ĐH Công nghiệp Hà Nội',dept:'Kỹ thuật, CNTT',min:18,icon:'🔧',combos:['A00','A01']},
+    {name:'ĐH Sư phạm Kỹ thuật HCM',dept:'Kỹ thuật điện, Cơ điện tử',min:20,icon:'⚙️',combos:['A01']},
+    {name:'ĐH Giao thông Vận tải',dept:'Kỹ thuật giao thông, Tin học',min:19,icon:'🚂',combos:['A01']},
+    {name:'ĐH Hùng Vương Phú Thọ',dept:'Công nghệ thông tin, Kỹ thuật',min:14,icon:'🏠',combos:['A01']},
+    {name:'ĐH Thái Nguyên',dept:'CNTT, Kỹ thuật',min:16,icon:'🌲',combos:['A01']},
+  ],
+  B00:[
+    {name:'ĐH Y Hà Nội',dept:'Y đa khoa, Dược học',min:27,icon:'🏥',combos:['B00']},
+    {name:'ĐH Y Dược TP.HCM',dept:'Y đa khoa, Dược',min:26,icon:'💊',combos:['B00']},
+    {name:'ĐH Y Dược Thái Nguyên',dept:'Y đa khoa, Điều dưỡng',min:22,icon:'🩺',combos:['B00']},
+    {name:'ĐH Dược Hà Nội',dept:'Dược học',min:24,icon:'⚗️',combos:['B00','B08']},
+    {name:'HV Quân y',dept:'Y học quân sự',min:23,icon:'🎖️',combos:['B00']},
+    {name:'ĐH Y Dược (ĐH Thái Nguyên)',dept:'Y đa khoa, Điều dưỡng',min:20,icon:'🏥',combos:['B00']},
+    {name:'ĐH Nông nghiệp Hà Nội',dept:'Công nghệ sinh học, Thú y',min:18,icon:'🌱',combos:['B00','B08']},
+    {name:'ĐH Khoa học Tự nhiên (ĐHQGHN)',dept:'Sinh học, Hóa học',min:20,icon:'🔬',combos:['B00']},
+    {name:'ĐH Y tế Công cộng',dept:'Y tế công cộng, Sức khỏe',min:19,icon:'🏙️',combos:['B00']},
+    {name:'ĐH Hùng Vương Phú Thọ',dept:'Sinh học, Điều dưỡng',min:14,icon:'🏠',combos:['B00']},
+    {name:'ĐH Y Phạm Ngọc Thạch',dept:'Y đa khoa, Điều dưỡng',min:21,icon:'🩻',combos:['B00']},
+  ],
+  C00:[
+    {name:'HV Ngoại giao',dept:'Quan hệ quốc tế, Truyền thông',min:26,icon:'🌏',combos:['C00','D14']},
+    {name:'ĐH KHXH&NV (ĐHQGHN)',dept:'Lịch sử, Địa lý, Triết học',min:24,icon:'📚',combos:['C00']},
+    {name:'ĐH Luật Hà Nội',dept:'Luật học',min:25,icon:'⚖️',combos:['C00','C03']},
+    {name:'ĐH Sư phạm Hà Nội',dept:'Sư phạm Lịch sử, Địa lý',min:22,icon:'🎓',combos:['C00']},
+    {name:'ĐH Văn hóa Hà Nội',dept:'Du lịch, Văn hóa học',min:18,icon:'🎭',combos:['C00']},
+    {name:'ĐH Khoa học (ĐH Thái Nguyên)',dept:'Lịch sử, Địa lý, Xã hội',min:17,icon:'🌲',combos:['C00']},
+    {name:'ĐH KHXH&NV TP.HCM',dept:'Lịch sử, Địa lý',min:22,icon:'🏙️',combos:['C00']},
+    {name:'HV Cảnh sát Nhân dân',dept:'An ninh, Luật',min:21,icon:'🚔',combos:['C00','C03']},
+    {name:'ĐH Hùng Vương Phú Thọ',dept:'Lịch sử, Địa lý, GDCD',min:14,icon:'🏠',combos:['C00']},
+    {name:'ĐH Tây Bắc',dept:'Khoa học xã hội, Sư phạm',min:15,icon:'⛰️',combos:['C00']},
+    {name:'Trường ĐH Văn hóa TP.HCM',dept:'Du lịch, Văn hóa',min:16,icon:'🎨',combos:['C00']},
+  ],
+  D01:[
+    {name:'ĐH Ngoại thương Hà Nội',dept:'Kinh doanh quốc tế, Thương mại',min:27,icon:'💼',combos:['D01']},
+    {name:'ĐH Kinh tế Quốc dân',dept:'Quản trị kinh doanh, Tài chính',min:26,icon:'📈',combos:['D01','D07']},
+    {name:'ĐH Hà Nội',dept:'Ngôn ngữ Anh, Thương mại',min:24,icon:'🗣️',combos:['D01']},
+    {name:'ĐH Ngoại ngữ (ĐHQGHN)',dept:'Sư phạm Tiếng Anh',min:22,icon:'🌐',combos:['D01','D14']},
+    {name:'HV Ngân hàng',dept:'Tài chính, Ngân hàng',min:22,icon:'🏦',combos:['D01','D07']},
+    {name:'ĐH Thương mại',dept:'Quản trị kinh doanh, Marketing',min:23,icon:'🛒',combos:['D01']},
+    {name:'ĐH Kinh tế TP.HCM',dept:'Kinh doanh, Tài chính',min:24,icon:'🏙️',combos:['D01','D07']},
+    {name:'HV Tài chính',dept:'Tài chính – Ngân hàng',min:22,icon:'💰',combos:['D01','D07']},
+    {name:'ĐH Sư phạm Hà Nội',dept:'Sư phạm Tiếng Anh',min:21,icon:'🎓',combos:['D01','D14']},
+    {name:'ĐH Hùng Vương Phú Thọ',dept:'Tiếng Anh, Kinh tế địa phương',min:14,icon:'🏠',combos:['D01']},
+    {name:'ĐH Mở TP.HCM',dept:'Kinh doanh, Ngôn ngữ Anh',min:19,icon:'📖',combos:['D01']},
+    {name:'ĐH Kinh tế (ĐHQGHN)',dept:'Kinh tế, Quản lý',min:24,icon:'📊',combos:['D01']},
+  ],
+  // fallback
+  DEFAULT:[
+    {name:'ĐH Hùng Vương Phú Thọ',dept:'Đa ngành – phù hợp nhiều tổ hợp',min:14,icon:'🏠',combos:['A00','B00','C00','D01']},
+    {name:'ĐH Tây Bắc',dept:'Đa ngành địa phương',min:14,icon:'⛰️',combos:['C00','D01']},
+    {name:'ĐH Thái Nguyên',dept:'Đa ngành',min:15,icon:'🌲',combos:['A00','B00','C00','D01']},
+  ],
+};
+
+/* =========================================================
+   SUBJECT COMBOS
+========================================================= */
+const ALL_COMBOS = [
+  {code:'A00',subs:['Toán','Vật lí','Hóa học']},
+  {code:'A01',subs:['Toán','Vật lí','Tiếng Anh']},
+  {code:'A02',subs:['Toán','Vật lí','Sinh học']},
+  {code:'A09',subs:['Toán','Vật lí','Lịch sử']},
+  {code:'A10',subs:['Toán','Vật lí','Địa lí']},
+  {code:'B00',subs:['Toán','Hóa học','Sinh học']},
+  {code:'B08',subs:['Toán','Sinh học','Tiếng Anh']},
+  {code:'C00',subs:['Ngữ văn','Lịch sử','Địa lí']},
+  {code:'C03',subs:['Ngữ văn','Toán','Lịch sử']},
+  {code:'C04',subs:['Ngữ văn','Toán','Địa lí']},
+  {code:'D01',subs:['Ngữ văn','Toán','Tiếng Anh']},
+  {code:'D07',subs:['Toán','Hóa học','Tiếng Anh']},
+  {code:'D08',subs:['Toán','Lịch sử','Tiếng Anh']},
+  {code:'D09',subs:['Toán','Địa lí','Tiếng Anh']},
+  {code:'D14',subs:['Ngữ văn','Lịch sử','Tiếng Anh']},
+  {code:'D15',subs:['Ngữ văn','Địa lí','Tiếng Anh']},
+  {code:'D66',subs:['Ngữ văn','Địa lí','GD KT&PL']},
+  {code:'C19',subs:['Ngữ văn','Lịch sử','GD KT&PL']},
+];
+
+/* =========================================================
+   HELPERS
+========================================================= */
+function norm(s){ return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/gi,'d') }
+function scoreClass(v){ return v>=7.5?'hi':v>=5?'mid':'lo' }
+function scoreNum(v,cls){ return v!=null?`<span class="score-num ${cls??scoreClass(v)}">${v.toFixed(2)}</span>`:`<span class="score-num na">—</span>` }
+function delta(a,b){
+  if(a==null||b==null) return '';
+  const d=(b-a).toFixed(2);
+  if(d>0) return `<span class="delta up">▲ ${d}</span>`;
+  if(d<0) return `<span class="delta down">▼ ${Math.abs(d)}</span>`;
+  return `<span class="delta same">= 0</span>`;
+}
+function comboScore(scores,subs){ let t=0,c=0; subs.forEach(s=>{if(scores[s]!=null){t+=scores[s];c++;}}); return c===subs.length?t:null }
+function getLatestScores(st, examOrder){
+  const res={};
+  examOrder.slice().reverse().forEach(e=>{ if(st[e]) Object.entries(st[e]).forEach(([k,v])=>{ if(!(k in res)) res[k]=v; }); });
+  return res;
+}
+function getAllSubjects(st, examOrder){ const s=new Set(); examOrder.forEach(e=>{ if(st[e]) Object.keys(st[e]).forEach(k=>s.add(k)); }); return [...s] }
+
+/* =========================================================
+   SCHOOL SWITCH
+========================================================= */
+function switchSchool(code){
+  currentSchool = code;
+  currentStudent = null;
+  document.querySelectorAll('.school-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+code).classList.add('active');
+  document.getElementById('inp-name').value='';
+  document.getElementById('inp-dob').value='';
+  document.getElementById('inp-class').value='';
+  rebuildClassSelect();
+  updateCounter();
+  document.getElementById('results').innerHTML = defaultState();
+  if(chartInstance){chartInstance.destroy();chartInstance=null;}
+}
+
+function rebuildClassSelect(){
+  const sel=document.getElementById('inp-class');
+  const data=SCHOOL_DATA[currentSchool].data;
+  const classes=[...new Set(data.map(s=>s.class).filter(Boolean))].sort();
+  sel.innerHTML='<option value="">-- Tất cả --</option>'+classes.map(c=>`<option>${c}</option>`).join('');
+}
+
+function updateCounter(){
+  const d=SCHOOL_DATA[currentSchool];
+  const el=document.getElementById('hdr-count');
+  el.textContent=`📊 ${d.data.length} học sinh · ${d.label}`;
+}
+
+function defaultState(){
+  return `<div class="state-box">
+    <span class="icon">📚</span>
+    <h3>Chào mừng đến hệ thống tra cứu</h3>
+    <p>Chọn trường học, nhập tên học sinh (và ngày sinh nếu cần) rồi nhấn <b>Tra cứu</b>.</p>
+  </div>`;
+}
+
+/* =========================================================
+   AUTOCOMPLETE
+========================================================= */
+function onNameInput(){
+  const q=document.getElementById('inp-name').value.trim();
+  const cls=document.getElementById('inp-class').value;
+  const list=document.getElementById('ac-list');
+  if(q.length<1){list.classList.remove('open');return;}
+  const qn=norm(q);
+  const data=SCHOOL_DATA[currentSchool].data;
+  const hits=data.filter(s=>norm(s.name).includes(qn)&&(!cls||s.class===cls)).slice(0,8);
+  if(!hits.length){list.classList.remove('open');return;}
+  list.innerHTML=hits.map(s=>`<div class="ac-item" onclick="selectStudent('${esc(s.name)}','${esc(s.dob)}','${esc(s.class)}')">
+    <span class="ac-name">${s.name}</span>
+    <span class="ac-meta">${s.class} · ${s.dob||'?'}</span>
+  </div>`).join('');
+  list.classList.add('open');
+}
+function esc(s){return s.replace(/'/g,"\\'")}
+function onNameKey(e){if(e.key==='Enter')doSearch();if(e.key==='Escape')closeAC();}
+function closeAC(){document.getElementById('ac-list').classList.remove('open')}
+document.addEventListener('click',e=>{if(!e.target.closest('.ac-wrap'))closeAC();});
+function selectStudent(name,dob,cls){
+  document.getElementById('inp-name').value=name;
+  document.getElementById('inp-dob').value=dob;
+  document.getElementById('inp-class').value=cls;
+  closeAC(); doSearch();
+}
+function formatDob(el){
+  let v=el.value.replace(/\D/g,'');
+  if(v.length>2) v=v.slice(0,2)+'/'+v.slice(2);
+  if(v.length>5) v=v.slice(0,5)+'/'+v.slice(5);
+  if(v.length>10) v=v.slice(0,10);
+  el.value=v;
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+function doSearch(){
+  closeAC();
+  const sch=SCHOOL_DATA[currentSchool];
+  if(!sch.data.length){
+    if(currentSchool==='tn'){
+      document.getElementById('results').innerHTML=`
+      <div class="school-notice">
+        <h3>⚙️ Chưa có dữ liệu THPT Tam Nông</h3>
+        <p>Vui lòng cung cấp file khảo sát của THPT Tam Nông.<br>
+        Sau khi nhận file, dữ liệu sẽ được thêm vào <code>data/tamnong.js</code>.<br>
+        Hiện tại chỉ hỗ trợ tra cứu <b>THPT Hưng Hóa</b>.</p>
+      </div>`;
+      return;
+    }
+    document.getElementById('results').innerHTML=`<div class="state-box"><span class="icon">⚠️</span><h3>Không có dữ liệu</h3><p>Chưa tải được dữ liệu cho trường này.</p></div>`;
+    return;
+  }
+  const q=document.getElementById('inp-name').value.trim();
+  const dob=document.getElementById('inp-dob').value.trim();
+  const cls=document.getElementById('inp-class').value;
+  if(!q){alert('Vui lòng nhập tên học sinh!');return;}
+  const qn=norm(q);
+  let hits=sch.data.filter(s=>norm(s.name).includes(qn)&&(!cls||s.class===cls));
+  if(dob) hits=hits.filter(s=>s.dob===dob);
+  if(!hits.length){
+    document.getElementById('results').innerHTML=`<div class="state-box"><span class="icon">🔍</span><h3>Không tìm thấy kết quả</h3><p>Không có học sinh tên "<b>${q}</b>"${dob?' sinh ngày '+dob:''}. Thử kiểm tra lại tên hoặc chọn đúng lớp.</p></div>`;
+    return;
+  }
+  if(hits.length===1){renderStudent(hits[0]);return;}
+  // Multiple results
+  document.getElementById('results').innerHTML=`
+  <div class="card">
+    <div class="card-header"><h3>📋 Tìm thấy ${hits.length} học sinh – vui lòng chọn đúng người</h3></div>
+    <div class="card-body"><div class="uni-grid">
+    ${hits.map(s=>`<div class="uni-row" style="cursor:pointer" onclick="renderStudentByKey('${esc(s.name)}','${esc(s.dob)}','${esc(s.class)}')">
+      <div class="uni-num num-n">👤</div>
+      <div class="uni-body"><div class="uni-name">${s.name}</div>
+        <div class="uni-dept">Lớp ${s.class} · Ngày sinh: ${s.dob||'không rõ'}</div></div>
+    </div>`).join('')}
+    </div></div>
+  </div>`;
+}
+
+function renderStudentByKey(name,dob,cls){
+  const data=SCHOOL_DATA[currentSchool].data;
+  const st=data.find(s=>s.name===name&&s.dob===dob&&s.class===cls);
+  if(st) renderStudent(st);
+}
+
+/* =========================================================
+   RENDER STUDENT
+========================================================= */
+function renderStudent(st){
+  currentStudent=st;
+  const examOrder=SCHOOL_DATA[currentSchool].exams;
+  const allSubs=getAllSubjects(st,examOrder);
+  const latest=getLatestScores(st,examOrder);
+
+  // Combos
+  const combos=ALL_COMBOS
+    .map(c=>({...c,score:comboScore(latest,c.subs)}))
+    .filter(c=>c.score!==null)
+    .sort((a,b)=>b.score-a.score);
+
+  const bestCombo=combos[0];
+
+  // Banner tags
+  const tags=[
+    `📚 Lớp ${st.class}`,
+    `🎂 ${st.dob||'?'}`,
+    bestCombo?`🏆 Tổ hợp tốt nhất: <b>${bestCombo.code}</b> (${bestCombo.score.toFixed(2)}đ)`:null,
+  ].filter(Boolean).map(t=>`<span class="sb-tag ${t.includes('🏆')?'gold':''}">${t}</span>`).join('');
+
+  // EXAM TABS
+  const tabsHtml=examOrder.map((e,i)=>{
+    const hasData=st[e]&&Object.keys(st[e]).length;
+    return `<div class="exam-tab ${i===0?'active':''} ${!hasData?'no-data':''}" id="etab-${e}"
+      onclick="${hasData?`switchExamTab('${e}')`:''}">${EXAM_LABELS[e]||e}${!hasData?' (N/A)':''}</div>`;
+  }).join('');
+
+  // Render each exam panel
+  function examPanel(eKey){
+    const scores=st[eKey]||{};
+    const subs=Object.keys(scores);
+    if(!subs.length) return '<div class="no-data-exam">Không có dữ liệu kỳ thi này.</div>';
+    return `<div class="subject-grid">${subs.map(s=>{
+      const v=scores[s];
+      const sc=scoreClass(v);
+      // find previous for change
+      const prevKey=eKey==='so2'?'truong':eKey==='truong'?'so1':null;
+      const prev=prevKey&&st[prevKey]&&st[prevKey][s]!=null?st[prevKey][s]:null;
+      const changeHtml=prev!=null?(()=>{
+        const d=(v-prev);
+        if(d>0.001) return `<div class="sc-change up">▲ ${d.toFixed(2)} so với kỳ trước</div>`;
+        if(d<-0.001) return `<div class="sc-change down">▼ ${Math.abs(d).toFixed(2)} so với kỳ trước</div>`;
+        return `<div class="sc-change same">= Không đổi</div>`;
+      })():'';
+      return `<div class="subject-card ${sc}">
+        <div class="sc-label">${s}</div>
+        <div class="sc-score ${sc}">${v.toFixed(2)}</div>
+        ${changeHtml}
+      </div>`;
+    }).join('')}</div>`;
+  }
+
+  const panelsHtml=examOrder.map((e,i)=>`<div class="exam-panel ${i===0?'active':''}" id="epanel-${e}">${examPanel(e)}</div>`).join('');
+
+  // SUMMARY TABLE
+  function buildSummaryTable(){
+    if(examOrder.length<2) return '';
+    const rows=allSubs.map(sub=>{
+      const vals=examOrder.map(e=>st[e]&&st[e][sub]!=null?st[e][sub]:null);
+      const cells=vals.map((v,i)=>{
+        const prev=i>0?vals[i-1]:null;
+        return `<td>${v!=null?scoreNum(v)+delta(prev,v):'<span class="score-num na">—</span>'}</td>`;
+      });
+      return `<tr><td><b>${sub}</b></td>${cells.join('')}</tr>`;
+    });
+    const totals=examOrder.map(e=>{
+      const d=st[e];
+      if(!d) return null;
+      const vals=Object.values(d).filter(v=>v!=null);
+      return vals.length?vals.reduce((a,b)=>a+b,0):null;
+    });
+    const totRow=totals.map((t,i)=>`<td>${t!=null?scoreNum(t)+delta(i>0?totals[i-1]:null,t):'<span class="score-num na">—</span>'}</td>`).join('');
+    return `<div class="section"><div class="card">
+      <div class="card-header"><h3>📊 Bảng so sánh điểm tổng hợp</h3></div>
+      <div class="card-body" style="overflow-x:auto">
+        <table class="stbl">
+          <thead><tr><th>Môn thi</th>${examOrder.map(e=>`<th>🗓️ ${EXAM_LABELS[e]||e}</th>`).join('')}</tr></thead>
+          <tbody>${rows.join('')}</tbody>
+          <tfoot><tr><td>📌 Tổng điểm</td>${totRow}</tr></tfoot>
+        </table>
+      </div></div></div>`;
+  }
+
+  // COMBOS
+  function buildCombos(){
+    if(!combos.length) return '';
+    const cards=combos.slice(0,8).map((c,i)=>{
+      const rankCls=i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'';
+      const rankLabel=i===0?'1':i===1?'2':i===2?'3':'';
+      const sc=scoreClass(c.score/3);
+      return `<div class="combo-card ${rankCls}">
+        ${rankLabel?`<div class="combo-rank">${rankLabel}</div>`:''}
+        <div class="combo-code">${c.code}</div>
+        <div class="combo-subs">${c.subs.join(' · ')}</div>
+        <div class="combo-score ${sc}">${c.score.toFixed(2)}</div>
+        <div class="combo-cap">/ 30 điểm</div>
+        ${i===0?`<span class="combo-best-label">⭐ Tổ hợp cao nhất</span>`:''}
+      </div>`;
+    }).join('');
+    return `<div class="section"><div class="card">
+      <div class="card-header"><h3>🧮 Tổ hợp môn xét tuyển đại học</h3></div>
+      <div class="card-body"><div class="combo-grid">${cards}</div>
+        <div style="font-size:12px;color:var(--faint);margin-top:14px">* Điểm tính theo kết quả mới nhất có sẵn của học sinh.</div>
+      </div></div></div>`;
+  }
+
+  // UNIVERSITIES
+  function buildUni(){
+    if(!bestCombo) return '';
+    const uniKey=bestCombo.code;
+    let unis=UNI_DB[uniKey]||UNI_DB['DEFAULT'];
+    // merge with nearby combos
+    const extras=['D01','C00','B00','A00','A01'].filter(c=>c!==uniKey);
+    extras.forEach(c=>{if(unis.length<12&&UNI_DB[c]) unis=[...unis,...UNI_DB[c].filter(u=>!unis.find(x=>x.name===u.name))]});
+    unis=unis.slice(0,12);
+    const score=bestCombo.score;
+    const nums=['num-1','num-2','num-3',...Array(12).fill('num-n')];
+    const rows=unis.map((u,i)=>{
+      const diff=score-u.min;
+      const reqLabel=diff>=0?`✓ Đủ điều kiện (hơn ${diff.toFixed(1)} điểm)`:diff>=-3?`⚠️ Gần đủ (thiếu ${(-diff).toFixed(1)} điểm)`:`✗ Cần cải thiện (thiếu ${(-diff).toFixed(1)} điểm)`;
+      const reqCls=diff>=0?'req-ok':diff>=-3?'req-near':'req-low';
+      const comboBadges=u.combos.map(c=>`<span class="uc-tag">${c}</span>`).join('');
+      return `<div class="uni-row">
+        <div class="uni-num ${nums[i]}">${i+1}</div>
+        <div class="uni-body">
+          <div class="uni-name">${u.icon} ${u.name}</div>
+          <div class="uni-dept">${u.dept}</div>
+          <div class="uni-combos">${comboBadges}</div>
+          <span class="uni-req ${reqCls}">${reqLabel}</span>
+          <div class="uni-score-badge">Điểm tối thiểu tham khảo: ${u.min} · Điểm hiện tại: ${score.toFixed(2)}</div>
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="section"><div class="card">
+      <div class="card-header"><h3>🏛️ Gợi ý trường đại học phù hợp <span style="font-size:12px;color:var(--faint);font-weight:400">(tổ hợp ${bestCombo.code} · ${bestCombo.score.toFixed(2)} điểm)</span></h3></div>
+      <div class="card-body"><div class="uni-grid">${rows}</div>
+        <div style="font-size:12px;color:var(--faint);margin-top:14px">* Điểm xét tuyển chỉ mang tính tham khảo, có thể thay đổi theo từng năm tuyển sinh.</div>
+      </div></div></div>`;
+  }
+
+  // ANALYSIS
+  function buildAnalysis(){
+    const examPairs=[];
+    for(let i=1;i<examOrder.length;i++) examPairs.push([examOrder[i-1],examOrder[i]]);
+    const blocks=[];
+
+    // Strength/weakness
+    const latestArr=Object.entries(latest).sort((a,b)=>b[1]-a[1]);
+    if(latestArr.length>=2){
+      const strong=latestArr[0], weak=latestArr[latestArr.length-1];
+      blocks.push(`<div class="analysis-block ab-info">
+        <div class="ab-title">💡 Phân tích môn mạnh – yếu (theo dữ liệu mới nhất)</div>
+        <b>Môn mạnh nhất:</b> ${strong[0]} <b>(${strong[1].toFixed(2)} điểm)</b> – 
+        <b>Môn cần cải thiện:</b> ${weak[0]} <b>(${weak[1].toFixed(2)} điểm)</b>.
+        ${weak[1]<5?`<br>⚠️ <b>Chú ý:</b> Môn <b>${weak[0]}</b> dưới 5 điểm – cần tập trung ôn luyện để đảm bảo điều kiện thi tốt nghiệp THPT.`:''}
+      </div>`);
+    }
+
+    // Trend per pair
+    examPairs.forEach(([e1,e2])=>{
+      const subs=allSubs.filter(s=>st[e1]&&st[e1][s]!=null&&st[e2]&&st[e2][s]!=null);
+      if(!subs.length) return;
+      const avg=subs.reduce((a,s)=>a+(st[e2][s]-st[e1][s]),0)/subs.length;
+      const label=`${EXAM_LABELS[e1]} → ${EXAM_LABELS[e2]}`;
+      if(avg>0.3) blocks.push(`<div class="analysis-block ab-up"><div class="ab-title">📈 Tiến bộ: ${label}</div>Điểm trung bình <b>tăng ${avg.toFixed(2)} điểm</b>. Học sinh có sự cải thiện rõ rệt – cần duy trì phong độ và phương pháp học tập hiện tại.</div>`);
+    else if(avg<-0.3) blocks.push(`<div class="analysis-block ab-down"><div class="ab-title">📉 Giảm sút: ${label}</div>Điểm trung bình <b>giảm ${Math.abs(avg).toFixed(2)} điểm</b>. Cần xem xét lại phương pháp ôn luyện và tăng cường thời gian tự học.</div>`);
+      else blocks.push(`<div class="analysis-block ab-info"><div class="ab-title">📊 Ổn định: ${label}</div>Điểm biến động nhỏ (${avg.toFixed(2)} điểm). Cần tiếp tục nỗ lực và không chủ quan trong thời gian còn lại.</div>`);
+    });
+
+    // Overall
+    if(examPairs.length>1){
+      const e1=examOrder[0],e2=examOrder[examOrder.length-1];
+      const subs=allSubs.filter(s=>st[e1]&&st[e1][s]!=null&&st[e2]&&st[e2][s]!=null);
+      if(subs.length){
+        const avg=subs.reduce((a,s)=>a+(st[e2][s]-st[e1][s]),0)/subs.length;
+        const cl=avg>0.3?'ab-up':avg<-0.3?'ab-down':'ab-warn';
+        blocks.push(`<div class="analysis-block ${cl}"><div class="ab-title">🔭 Xu hướng tổng thể (${EXAM_LABELS[e1]} → ${EXAM_LABELS[e2]})</div>
+          Trung bình tổng thể ${avg>0?'tăng':'giảm'} <b>${Math.abs(avg).toFixed(2)} điểm/môn</b> trong toàn bộ chu kỳ khảo sát.
+          ${avg>0?'Xu hướng phát triển tích cực. Hãy duy trì và phấn đấu hơn nữa.':'Cần điều chỉnh kế hoạch học tập và nhờ giáo viên hỗ trợ sớm.'}
+        </div>`);
+      }
+    }
+
+    if(!blocks.length) return '';
+    return `<div class="section"><div class="card">
+      <div class="card-header"><h3>📝 Nhận xét & Phân tích</h3></div>
+      <div class="card-body">${blocks.join('')}</div>
+    </div></div>`;
+  }
+
+  // CHART
+  function buildChart(){
+    if(examOrder.length<2) return '';
+    return `<div class="section"><div class="card">
+      <div class="card-header"><h3>📈 Biểu đồ so sánh điểm số các kỳ khảo sát</h3></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="scoreChart"></canvas></div></div>
+    </div></div>`;
+  }
+
+  // COMPOSE HTML
+  document.getElementById('results').innerHTML=`
+    <div class="student-banner">
+      <div class="sb-avatar">🎓</div>
+      <div class="sb-info">
+        <h2>${st.name}</h2>
+        <div class="sb-sub">${SCHOOL_DATA[currentSchool].label} · Năm học 2025–2026</div>
+        <div class="sb-tags">${tags}</div>
+      </div>
+    </div>
+
+    <div class="section"><div class="card">
+      <div class="exam-tabs">${tabsHtml}</div>
+      <div class="exam-panels">${panelsHtml}</div>
+    </div></div>
+
+    ${buildSummaryTable()}
+    ${buildChart()}
+    ${buildCombos()}
+    ${buildUni()}
+    ${buildAnalysis()}
+  `;
+
+  // Chart.js
+  if(examOrder.length>=2){
+    if(chartInstance){chartInstance.destroy();chartInstance=null;}
+    const ctx=document.getElementById('scoreChart');
+    if(ctx){
+      const COLORS=['#3b7ff5','#f59e0b','#10b981','#f43f5e'];
+      const datasets=examOrder.map((e,i)=>({
+        label:EXAM_LABELS[e]||e,
+        data:allSubs.map(s=>st[e]&&st[e][s]!=null?st[e][s]:null),
+        backgroundColor:COLORS[i]+'26',borderColor:COLORS[i],
+        tension:.35,pointRadius:5,fill:true,spanGaps:false,
+      }));
+      chartInstance=new Chart(ctx,{
+        type:'radar',
+        data:{labels:allSubs,datasets},
+        options:{
+          responsive:true,maintainAspectRatio:false,
+          scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:11}},pointLabels:{font:{size:12,family:'Be Vietnam Pro'}}}},
+          plugins:{legend:{position:'bottom',labels:{font:{size:12,family:'Be Vietnam Pro'},padding:16}}},
+          elements:{line:{borderWidth:2}},
+        }
+      });
+    }
+  }
+}
+
+/* =========================================================
+   EXAM TAB SWITCH
+========================================================= */
+function switchExamTab(key){
+  document.querySelectorAll('.exam-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.exam-panel').forEach(p=>p.classList.remove('active'));
+  const t=document.getElementById('etab-'+key);
+  const p=document.getElementById('epanel-'+key);
+  if(t)t.classList.add('active');
+  if(p)p.classList.add('active');
+}
+
+/* =========================================================
+   INIT
+========================================================= */
+(function init(){
+  rebuildClassSelect();
+  updateCounter();
+})();
+</script>
+</body>
+</html>
